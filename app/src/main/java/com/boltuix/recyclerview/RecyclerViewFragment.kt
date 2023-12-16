@@ -16,7 +16,8 @@ import com.google.android.material.snackbar.Snackbar
 class RecyclerViewFragment : Fragment() {
     private var _binding: RecyclerViewFragmentBinding? = null
 
-    private lateinit var adapterOrder: RecyclerViewAdapter
+    //private lateinit var adapterOrder: RecyclerViewAdapter
+    private lateinit var adapterOrder: ListAdapterWithDiff
 
     private val viewModel: RecyclerViewViewModel by viewModels()
 
@@ -39,14 +40,14 @@ class RecyclerViewFragment : Fragment() {
 
         binding.recyclerView.apply {
             layoutManager =
-               // LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                //LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     //  GridLayoutManager(context,2)
                     StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
 
-            hasFixedSize()
+            //hasFixedSize()
 
             //adapterOrder = RecyclerViewAdapter()
-            adapterOrder = RecyclerViewAdapter(event = {design, item ->
+            adapterOrder = ListAdapterWithDiff(event = {design, item ->
                 design.titleText.setTextColor(Color.BLUE)
                 Snackbar.make(binding.recyclerView, item.title, Snackbar.LENGTH_SHORT).show()
             })
@@ -54,10 +55,15 @@ class RecyclerViewFragment : Fragment() {
         }
 
         viewModel.livaDataOfList.observe(viewLifecycleOwner) { response ->
+            //adapterOrder.submitList(null)
             adapterOrder.submitList(response)
         }
 
+        binding.btnUpdate.setOnClickListener {
+            viewModel.fetchSampleData2()
+        }
 
+        viewModel.fetchSampleData()
     }
 
 

@@ -52,7 +52,8 @@ class RecyclerViewAdapter (private val event: (RecyclerViewDesignBinding, MyData
     override fun getItemCount(): Int = itemDiffer.currentList.size
 
     fun submitList(list: List<MyData?>?) {
-        itemDiffer.submitList(list)
+        //itemDiffer.submitList(list)
+        itemDiffer.submitList(list?.let { ArrayList(it) })
     }
 
 }
